@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { authApi } from '@/entities/user/api/authApi.ts'
-import { RoutePath, RouterConfig } from '@/app/routes/routerConfig.tsx'
+import { RoutePath, RouterConfig } from '@/shared/routes/routePaths'
 import { useAuthStore } from '@/entities/user/model/authStore.ts'
 
 export const useRegister = () => {

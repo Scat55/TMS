@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom'
-import { RoutePath, RouterConfig } from '@/app/routes/routerConfig'
+import { RoutePath, RouterConfig } from '@/shared/routes/routePaths'
 import { useAuthStore } from '@/entities/user/model/authStore'
 
 export const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
