@@ -1,6 +1,7 @@
 import type { RouteProps } from 'react-router-dom'
 import { lazy } from 'react'
 import { PrivateRoute } from '@/shared/ui/PrivateRoute.tsx'
+import { PublicRoute } from '@/shared/ui/PublicRoute.tsx'
 
 const MainPage = lazy(() => import('@/pages/main'))
 const AuthPage = lazy(() => import('@/pages/auth'))
@@ -26,6 +27,10 @@ export const routeConfig: Record<RouterConfig, RouteProps> = {
   },
   [RouterConfig.AUTH]: {
     path: RoutePath[RouterConfig.AUTH],
-    element: <AuthPage />,
+    element: (
+      <PublicRoute>
+        <AuthPage />
+      </PublicRoute>
+    ),
   },
 }
