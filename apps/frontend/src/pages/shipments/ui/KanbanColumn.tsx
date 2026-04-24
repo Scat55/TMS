@@ -1,7 +1,7 @@
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import type { Shipment } from '@/entities/shipment/api/shipmentsApi'
-import { ShipmentStatus } from '@/entities/shipment/api/shipmentsApi'
+import type { Shipment } from '@/entities/shipment/types/'
+import { ShipmentStatus } from '@/entities/shipment/types/'
 import { cn } from '@/lib/utils'
 import { ShipmentCard } from './ShipmentCard'
 

@@ -1,11 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import {
-  shipmentsApi,
-  ShipmentStatus,
-} from '@/entities/shipment/api/shipmentsApi'
+import { shipmentsApi } from '@/entities/shipment/api/shipmentsApi'
 import type { CreateShipmentDto } from '@/entities/shipment/api/shipmentsApi'
 import { useShipmentsStore } from '../model/shipmentsStore'
 import { useDebounce } from '@/shared/hooks/useDebounce'
+
+import { ShipmentStatus } from '@/entities/shipment/types/'
 
 export const shipmentsKeys = {
   all: ['shipments'] as const,
@@ -65,5 +64,12 @@ export const useRemoveShipment = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: shipmentsKeys.all })
     },
+  })
+}
+
+export const useShipmentStats = () => {
+  return useQuery({
+    queryKey: ['shipments', 'stats'],
+    queryFn: () => shipmentsApi.getStats(),
   })
 }

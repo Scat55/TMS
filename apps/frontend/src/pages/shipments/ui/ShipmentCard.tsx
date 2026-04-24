@@ -1,8 +1,8 @@
 import { Trash2, MapPin, Weight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import type { Shipment } from '@/entities/shipment/api/shipmentsApi'
-import { ShipmentStatus } from '@/entities/shipment/api/shipmentsApi'
+import type { Shipment } from '@/entities/shipment/types/'
+import { ShipmentStatus } from '@/entities/shipment/types/'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 

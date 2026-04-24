@@ -8,8 +8,8 @@ import {
   type DragStartEvent,
 } from '@dnd-kit/core'
 import { useState } from 'react'
-import type { Shipment } from '@/entities/shipment/api/shipmentsApi'
-import { ShipmentStatus } from '@/entities/shipment/api/shipmentsApi'
+import type { Shipment } from '@/entities/shipment/types/'
+import { ShipmentStatus } from '@/entities/shipment/types/'
 import { useUpdateShipmentStatus } from '@/entities/shipment/hooks/useShipments'
 import { KanbanColumn } from './KanbanColumn'
 import { ShipmentCard } from './ShipmentCard'

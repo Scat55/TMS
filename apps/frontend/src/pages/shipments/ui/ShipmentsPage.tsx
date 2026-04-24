@@ -7,7 +7,7 @@ import {
   useRemoveShipment,
 } from '@/entities/shipment/hooks/useShipments'
 import { useShipmentsStore } from '@/entities/shipment/model/shipmentsStore'
-import { ShipmentStatus } from '@/entities/shipment/api/shipmentsApi'
+import { ShipmentStatus } from '@/entities/shipment/types'
 import { ShipmentCard } from './ShipmentCard'
 import { CreateShipmentModal } from './CreateShipmentModal'
 import { KanbanBoard } from './KanbanBoard'

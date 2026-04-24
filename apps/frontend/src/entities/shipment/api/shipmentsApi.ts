@@ -1,23 +1,9 @@
 import { api } from '@/shared/api/instance'
-
-export enum ShipmentStatus {
-  PENDING = 'PENDING',
-  IN_TRANSIT = 'IN_TRANSIT',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED',
-}
-
-export interface Shipment {
-  id: number
-  title: string
-  description?: string
-  address: string
-  weight?: number
-  status: ShipmentStatus
-  createdAt: string
-  updatedAt: string
-  userId: number
-}
+import {
+  type Shipment,
+  type ShipmentStats,
+  ShipmentStatus,
+} from '@/entities/shipment/types'
 
 export interface CreateShipmentDto {
   title: string
@@ -42,4 +28,7 @@ export const shipmentsApi = {
       .then((res) => res.data),
 
   remove: (id: number) => api.delete(`/shipments/${id}`),
+
+  getStats: () =>
+    api.get<ShipmentStats>('/shipments/stats').then((res) => res.data),
 }
