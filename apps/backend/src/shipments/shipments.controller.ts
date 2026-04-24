@@ -30,6 +30,11 @@ export class ShipmentsController {
     return this.shipmentsService.findAll(user.sub, search, status);
   }
 
+  @Get('stats')
+  getStats(@CurrentUser() user: { sub: number }) {
+    return this.shipmentsService.getStats(user.sub);
+  }
+
   @Get(':id')
   findOne(
     @Param('id', ParseIntPipe) id: number,
