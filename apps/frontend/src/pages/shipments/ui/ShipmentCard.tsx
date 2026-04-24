@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Shipment } from '@/entities/shipment/api/shipmentsApi'
 import { ShipmentStatus } from '@/entities/shipment/api/shipmentsApi'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 const statusConfig: Record<
   ShipmentStatus,
@@ -31,13 +33,44 @@ const statusConfig: Record<
 interface ShipmentCardProps {
   shipment: Shipment
   onRemove: () => void
+  draggable?: boolean
 }
 
-export const ShipmentCard = ({ shipment, onRemove }: ShipmentCardProps) => {
+export const ShipmentCard = ({
+  shipment,
+  onRemove,
+  draggable,
+}: ShipmentCardProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: shipment.id })
+
+  const style = draggable
+    ? {
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }
+    : {}
+
   const { label, className } = statusConfig[shipment.status]
 
   return (
-    <div className="border rounded-xl p-4 flex flex-col gap-3 bg-card">
+    <div
+      ref={draggable ? setNodeRef : undefined}
+      style={style}
+      {...(draggable ? attributes : {})}
+      {...(draggable ? listeners : {})}
+      className={cn(
+        'border rounded-xl p-4 flex flex-col gap-3 bg-card',
+        isDragging && 'opacity-50 cursor-grabbing',
+        draggable && 'cursor-grab'
+      )}
+    >
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-medium leading-tight">{shipment.title}</h3>
         <span
