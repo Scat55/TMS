@@ -6,6 +6,7 @@ import { Layout } from '@/widgets/layout/ui/Layout.tsx'
 
 const MainPage = lazy(() => import('@/pages/main'))
 const AuthPage = lazy(() => import('@/pages/auth'))
+const ShipmentsPage = lazy(() => import('@/pages/shipments'))
 
 export const routeConfig: RouteObject[] = [
   {
@@ -19,6 +20,10 @@ export const routeConfig: RouteObject[] = [
       {
         index: true,
         element: <MainPage />,
+      },
+      {
+        path: 'shipments',
+        element: <ShipmentsPage />,
       },
     ],
   },

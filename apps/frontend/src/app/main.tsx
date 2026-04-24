@@ -11,7 +11,13 @@ import { initTheme } from '@/shared/lib/theme'
 
 initTheme()
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false, // отключаем retry
+    },
+  },
+})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

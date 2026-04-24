@@ -1,0 +1,69 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  shipmentsApi,
+  ShipmentStatus,
+} from '@/entities/shipment/api/shipmentsApi'
+import type { CreateShipmentDto } from '@/entities/shipment/api/shipmentsApi'
+import { useShipmentsStore } from '../model/shipmentsStore'
+import { useDebounce } from '@/shared/hooks/useDebounce'
+
+export const shipmentsKeys = {
+  all: ['shipments'] as const,
+  filtered: (params: object) => ['shipments', params] as const,
+  detail: (id: number) => ['shipments', id] as const,
+}
+
+export const useShipments = () => {
+  const search = useShipmentsStore((state) => state.search)
+  const status = useShipmentsStore((state) => state.status)
+  const debouncedSearch = useDebounce(search, 500)
+
+  const params = { search: debouncedSearch, status }
+
+  return useQuery({
+    queryKey: shipmentsKeys.filtered(params),
+    queryFn: () => shipmentsApi.getAll(params),
+  })
+}
+
+export const useShipment = (id: number) => {
+  return useQuery({
+    queryKey: shipmentsKeys.detail(id),
+    queryFn: () => shipmentsApi.getById(id),
+    enabled: !!id,
+  })
+}
+
+export const useCreateShipment = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (data: CreateShipmentDto) => shipmentsApi.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: shipmentsKeys.all })
+    },
+  })
+}
+
+export const useUpdateShipmentStatus = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: number; status: ShipmentStatus }) =>
+      shipmentsApi.updateStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: shipmentsKeys.all })
+    },
+  })
+}
+
+export const useRemoveShipment = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => shipmentsApi.remove(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: shipmentsKeys.all })
+    },
+  })
+}
