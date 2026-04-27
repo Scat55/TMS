@@ -64,4 +64,13 @@ export class ShipmentsController {
   ) {
     return this.shipmentsService.remove(id, user.sub);
   }
+
+  @Patch(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: Partial<CreateShipmentDto>,
+    @CurrentUser() user: { sub: number },
+  ) {
+    return this.shipmentsService.update(id, dto, user.sub);
+  }
 }

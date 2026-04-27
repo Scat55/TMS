@@ -73,3 +73,20 @@ export const useShipmentStats = () => {
     queryFn: () => shipmentsApi.getStats(),
   })
 }
+
+export const useUpdateShipment = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: number
+      data: Partial<CreateShipmentDto>
+    }) => shipmentsApi.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: shipmentsKeys.all })
+    },
+  })
+}

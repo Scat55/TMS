@@ -31,4 +31,7 @@ export const shipmentsApi = {
 
   getStats: () =>
     api.get<ShipmentStats>('/shipments/stats').then((res) => res.data),
+
+  update: (id: number, data: Partial<CreateShipmentDto>) =>
+    api.patch<Shipment>(`/shipments/${id}`, data).then((res) => res.data),
 }

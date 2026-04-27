@@ -1,10 +1,12 @@
-import { Trash2, MapPin, Weight } from 'lucide-react'
+import { useState } from 'react'
+import { Trash2, Pencil, MapPin, Weight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import type { Shipment } from '@/entities/shipment/types/'
-import { ShipmentStatus } from '@/entities/shipment/types/'
+import type { Shipment } from '@/entities/shipment/types'
+import { ShipmentStatus } from '@/entities/shipment/types'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { EditShipmentModal } from './EditShipmentModal'
 
 const statusConfig: Record<
   ShipmentStatus,
@@ -41,6 +43,8 @@ export const ShipmentCard = ({
   onRemove,
   draggable,
 }: ShipmentCardProps) => {
+  const [isEditOpen, setIsEditOpen] = useState(false)
+
   const {
     attributes,
     listeners,
@@ -60,57 +64,77 @@ export const ShipmentCard = ({
   const { label, className } = statusConfig[shipment.status]
 
   return (
-    <div
-      ref={draggable ? setNodeRef : undefined}
-      style={style}
-      {...(draggable ? attributes : {})}
-      {...(draggable ? listeners : {})}
-      className={cn(
-        'border rounded-xl p-4 flex flex-col gap-3 bg-card',
-        isDragging && 'opacity-50 cursor-grabbing',
-        draggable && 'cursor-grab'
-      )}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="font-medium leading-tight">{shipment.title}</h3>
-        <span
-          className={cn('text-xs px-2 py-1 rounded-full shrink-0', className)}
-        >
-          {label}
-        </span>
-      </div>
-
-      {shipment.description && (
-        <p className="text-sm text-muted-foreground">{shipment.description}</p>
-      )}
-
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <MapPin className="size-3.5 shrink-0" />
-          <span>{shipment.address}</span>
+    <>
+      <div
+        ref={draggable ? setNodeRef : undefined}
+        style={style}
+        {...(draggable ? attributes : {})}
+        {...(draggable ? listeners : {})}
+        className={cn(
+          'border rounded-xl p-4 flex flex-col gap-3 bg-card',
+          isDragging && 'opacity-50 cursor-grabbing',
+          draggable && 'cursor-grab'
+        )}
+      >
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-medium leading-tight">{shipment.title}</h3>
+          <span
+            className={cn('text-xs px-2 py-1 rounded-full shrink-0', className)}
+          >
+            {label}
+          </span>
         </div>
 
-        {shipment.weight && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Weight className="size-3.5 shrink-0" />
-            <span>{shipment.weight} кг</span>
-          </div>
+        {shipment.description && (
+          <p className="text-sm text-muted-foreground">
+            {shipment.description}
+          </p>
         )}
+
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <MapPin className="size-3.5 shrink-0" />
+            <span>{shipment.address}</span>
+          </div>
+
+          {shipment.weight && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Weight className="size-3.5 shrink-0" />
+              <span>{shipment.weight} кг</span>
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between mt-auto pt-2 border-t">
+          <span className="text-xs text-muted-foreground">
+            {new Date(shipment.createdAt).toLocaleDateString('ru-RU')}
+          </span>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-7 text-muted-foreground hover:text-foreground"
+              onClick={() => setIsEditOpen(true)}
+            >
+              <Pencil className="size-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-7 text-muted-foreground hover:text-destructive"
+              onClick={onRemove}
+            >
+              <Trash2 className="size-3.5" />
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <div className="flex items-center justify-between mt-auto pt-2 border-t">
-        <span className="text-xs text-muted-foreground">
-          {new Date(shipment.createdAt).toLocaleDateString('ru-RU')}
-        </span>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-7 text-muted-foreground hover:text-destructive"
-          onClick={onRemove}
-        >
-          <Trash2 className="size-3.5" />
-        </Button>
-      </div>
-    </div>
+      <EditShipmentModal
+        shipment={shipment}
+        open={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+      />
+    </>
   )
 }

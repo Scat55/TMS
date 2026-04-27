@@ -101,4 +101,13 @@ export class ShipmentsService {
 
     return { total, pending, inTransit, delivered, cancelled, chartData };
   }
+
+  async update(id: number, dto: Partial<CreateShipmentDto>, userId: number) {
+    await this.findOne(id, userId);
+
+    return this.prisma.shipment.update({
+      where: { id },
+      data: dto,
+    });
+  }
 }
