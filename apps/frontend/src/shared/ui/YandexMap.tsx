@@ -83,7 +83,7 @@ export const YandexMap = ({
         if (!readonly && onAddressSelect) {
           map.addChild(
             new YMapListener({
-              onClick: async (object: any, event: any) => {
+              onClick: async (_: any, event: any) => {
                 const coords: [number, number] = event.coordinates
 
                 try {

@@ -17,7 +17,10 @@ export const useShipments = () => {
   const status = useShipmentsStore((state) => state.status)
   const debouncedSearch = useDebounce(search, 500)
 
-  const params = { search: debouncedSearch, status }
+  const params = {
+    search: debouncedSearch,
+    status: status ?? undefined,
+  }
 
   return useQuery({
     queryKey: shipmentsKeys.filtered(params),
