@@ -138,14 +138,14 @@ export const YandexMap = ({
   }, [])
 
   useEffect(() => {
-    if (!mapInstanceRef.current || !address) return
+    if (!mapInstanceRef.current || !debouncedAddress) return
 
     const { YMapMarker } = window.ymaps3
 
     const updateMarker = async () => {
       try {
         const response = await fetch(
-          `https://geocode-maps.yandex.ru/1.x/?apikey=${import.meta.env.VITE_YANDEX_MAPS_API_KEY}&geocode=${encodeURIComponent(address)}&format=json`
+          `https://geocode-maps.yandex.ru/1.x/?apikey=${import.meta.env.VITE_YANDEX_MAPS_API_KEY}&geocode=${encodeURIComponent(debouncedAddress)}&format=json`
         )
         const data = await response.json()
         const point =
