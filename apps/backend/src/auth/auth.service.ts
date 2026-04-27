@@ -87,8 +87,8 @@ export class AuthService {
 
   // LOGOUT
   async logout(res: Response) {
-    res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
+    res.clearCookie('access_token', { sameSite: 'none', secure: true });
+    res.clearCookie('refresh_token', { sameSite: 'none', secure: true });
     return { message: 'Выход выполнен' };
   }
 
@@ -114,16 +114,16 @@ export class AuthService {
     // Устанавливаем cookies
     res.cookie('access_token', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 15 * 60 * 1000, // 15 минут
+      secure: true, // обязательно true для sameSite: none
+      sameSite: 'none', // разрешает кросс-доменные cookies
+      maxAge: 15 * 60 * 1000,
     });
 
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 дней
+      secure: true,
+      sameSite: 'none',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
   }
 }

@@ -26,14 +26,8 @@ const LoginForm = () => {
   const { mutate: login, isPending, isError, error } = useLogin()
 
   const onSubmit = async (data: LoginFormData) => {
-    console.log(data)
     // потом подключим useMutation
     login(data)
-    test()
-  }
-
-  const test = () => {
-    console.log(error)
   }
 
   return (

@@ -33,7 +33,6 @@ const RegisterForm = () => {
   const { mutate: regist, isPending, isError, error } = useRegister()
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log(data)
     // потом подключим useMutation
     const { confirmPassword, ...rest } = data
     regist(rest)
